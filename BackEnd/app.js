@@ -9,7 +9,7 @@ import jobRouter from "./routes/jobRouter.js";
 
 import { dbConnection } from "./database/dbConnection.js";
 import { errorMiddleware } from "./middlewares/errorHandler.js";
-// import InterviewRouter from "./routes/interviwRouter.js";
+import InterviewRouter from "./routes/interviwRouter.js";
 
 const app = express();
 dotenv.config({ path: "./config/config.env" });
@@ -36,7 +36,7 @@ app.use(
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/application", applicationRouter);
 app.use("/api/v1/job", jobRouter);
-// app.use("/api/v1/interviews", InterviewRouter);
+app.use("/api/v1/interviews", InterviewRouter);
 
 dbConnection();
 

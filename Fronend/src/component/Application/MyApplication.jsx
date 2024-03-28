@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-
+import { BiCheckCircle, BiXCircle, BiCalendarPlus } from "react-icons/bi";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ResumeModal from "./ResumeModal";
 import { Context } from "../../ContexApi/CreateApi";
 
 const MyApplications = () => {
-  const { user } = useContext(Context);
   const [applications, setApplications] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [resumeImageUrl, setResumeImageUrl] = useState("");
 
-  const { isAuthorized } = useContext(Context);
+  const { isAuthorized, user } = useContext(Context);
   const navigateTo = useNavigate();
 
   useEffect(() => {
@@ -94,7 +93,7 @@ const MyApplications = () => {
         </div>
       ) : (
         <div className="container ">
-          <h1>Applications From Job Seekers</h1>
+          <h1 className="mb-4">Applications From Job Seekers</h1>
           {applications.length <= 0 ? (
             <>
               <h4>No Applications Found</h4>
@@ -123,59 +122,83 @@ export default MyApplications;
 
 const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
   return (
-    <div className="">
-      <div className="border-1 p-3 border  border flex-md-row flex-column  d-flex justify-content-between align-items-center">
-        <div className=" ">
-          <p>
-            <span className="fw-bold fs-5 p-1">Name:</span>{" "}
-            <span className="fs-5">{element.name}</span>
-          </p>
-          <p>
-            <span className="fw-bold fs-5 p-1">Email:</span>{" "}
-            <span className="fs-5">{element.email}</span>
-          </p>
-          <p>
-            <span className="fw-bold fs-5 p-1">Phone:</span>{" "}
-            <span className="fs-5"> {element.phone}</span>
-          </p>
-          <p>
-            <span className="fw-sm-bold fs-5 p-1">Address:</span>{" "}
-            <span className="fs-5">{element.address}</span>
-          </p>
-          <p>
-            <span className="fw-bold fs-5 p-1">CoverLetter:</span>{" "}
-            <span className="fs-5">{element.coverLetter}</span>
-          </p>
-          <div className="w-25 text-center">
-            <p className="card-text">
-              {element.status === "Pending" && (
-                <div className="alert alert-warning" role="alert">
-                  <span className="fw-bold">Status:</span>&nbsp;
-                  <span>{element.status}</span>
-                  <i className="bi bi-clock-fill text-warning ms-2"></i>{" "}
-                  {/* Pending icon */}
-                </div>
-              )}
-              {element.status === "Rejected" && (
-                <div className="alert alert-danger" role="alert">
-                  <span className="fw-bold">Status:</span>&nbsp;
-                  <span>{element.status}</span>
-                  <i className="bi bi-x-circle-fill text-danger ms-2"></i>{" "}
-                  {/* Reject icon */}
-                </div>
-              )}
-              {element.status === "Accepted" && (
-                <div className="alert alert-success" role="alert">
-                  <span className="fw-bold">Status:</span>&nbsp;
-                  <span>{element.status}</span>
-                  <i className="bi bi-check2-circle text-success ms-2"></i>{" "}
-                  {/* Accepted icon */}
-                </div>
-              )}
-            </p>
+    <div className="mb-4">
+      <div className="border border-2 p-3 d-md-flex justify-content-between align-items-center">
+        <div className="mb-3">
+          <div className="mb-3">
+            <div className="row">
+              <div className="col-md-6">
+                <p className="fw-bold mb-2">
+                  <i className="bi bi-person-fill me-1"></i>
+                  Name:
+                </p>
+                <p className="fs-5">{element.name}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="fw-bold mb-2">
+                  <i className="bi bi-envelope-fill me-1"></i>
+                  Email:
+                </p>
+                <p className="fs-5">{element.email}</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6">
+                <p className="fw-bold mb-2">
+                  <i className="bi bi-telephone-fill me-1"></i>
+                  Phone:
+                </p>
+                <p className="fs-5">{element.phone}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="fw-bold mb-2">
+                  <i className="bi bi-geo-alt-fill me-1"></i>
+                  Address:
+                </p>
+                <p className="fs-5">{element.address}</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <p className="fw-bold mb-2">
+                  <i className="bi bi-file-earmark-text-fill me-1"></i>Cover
+                  Letter:
+                </p>
+                <p className="fs-5">{element.coverLetter}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-100 text-center d-flex justify-content-between align-items-center">
+            {element.status === "Pending" && (
+              <div className="alert alert-warning mb-2" role="alert">
+                Status: {element.status}
+                <i className="bi bi-clock-fill text-warning ms-2"></i>
+              </div>
+            )}
+            {element.status === "Rejected" && (
+              <div className="alert alert-danger mb-2" role="alert">
+                Status: {element.status}
+                <i className="bi bi-x-circle-fill text-danger ms-2"></i>
+              </div>
+            )}
+            {element.status === "Accepted" && (
+              <div className="alert alert-success mb-2" role="alert">
+                Status: {element.status}
+                <i className="bi bi-check2-circle text-success ms-2"></i>
+              </div>
+            )}
+            <button
+              onClick={() => deleteApplication(element._id)}
+              className="btn btn-danger  "
+            >
+              <i class="bi bi-trash circle  me-2  "></i>
+              Delete Application
+            </button>
           </div>
         </div>
-        <div className="d-none d-md-block">
+
+        <div className="d-none d-lg-block">
           <img
             src={element.resume.url}
             className="img-fluid w-25"
@@ -184,13 +207,13 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
           />
         </div>
 
-        <div className="btn_area">
-          <button
-            onClick={() => deleteApplication(element._id)}
-            className="btn btn-primary w-100"
-          >
-            Delete Application
-          </button>
+        <div className="d-flex justify-content-center align-items-center">
+          {element.status === "Accepted" && (
+            <Link to={`schedule/${element._id}`} className="btn btn-primary">
+              <i className="bi bi-calendar-check-fill me-2"></i>Interview
+              Scheduled. Check here
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -198,7 +221,6 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
 };
 
 const EmployerCard = ({ element, openModal }) => {
-  console.log(element);
   const [status, setStatus] = useState(element.status);
 
   const handleStatusUpdate = async (newStatus) => {
@@ -243,13 +265,15 @@ const EmployerCard = ({ element, openModal }) => {
                 <p className="card-text">
                   <span className="fw-bold">Status:</span> {status}
                 </p>
-                <div className="card-body">
+                <div className="card-body d-flex justify-content-between">
                   {/* Add UI element for status update */}
                   <button
                     className="btn btn-primary"
                     onClick={() => handleStatusUpdate("Accepted")}
                     disabled={status === "Accepted"} // Disable if already accepted
                   >
+                    {" "}
+                    <BiCheckCircle size={18} className="me-2" />
                     Accept
                   </button>
                   <button
@@ -257,8 +281,21 @@ const EmployerCard = ({ element, openModal }) => {
                     onClick={() => handleStatusUpdate("Rejected")}
                     disabled={status === "Rejected"} // Disable if already rejected
                   >
+                    {" "}
+                    <BiXCircle size={18} className="me-2" />
                     Reject
                   </button>
+                  <div>
+                    {" "}
+                    <Link
+                      className="btn btn-secondary "
+                      to={`/interview/${element._id}`}
+                    >
+                      <BiCalendarPlus size={18} className="me-2" />{" "}
+                      {/* Icon for Schedule the interview */}
+                      Schedule the interview
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

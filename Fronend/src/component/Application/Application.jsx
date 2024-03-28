@@ -63,9 +63,9 @@ const Application = () => {
   }
 
   return (
-    <section className="container">
-      <div className="row">
-        <div className="col">
+    <section className="container ">
+      <div className="row   vh-50   ">
+        <div className="col my-5  p-5 shadow-lg">
           <h3>Application Form</h3>
           <form onSubmit={handleApplication}>
             <div className="mb-3">

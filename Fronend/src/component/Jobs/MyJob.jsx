@@ -26,8 +26,8 @@ const MyJob = () => {
     fetchJobs();
   }, []);
 
-  if (!isAuthorized || (user && user.role !== "Employer")) {
-    navigateTo("/");
+  if (user && user.role !== "Employer") {
+    return navigateTo("/");
   }
 
   // Function For Deleting Job

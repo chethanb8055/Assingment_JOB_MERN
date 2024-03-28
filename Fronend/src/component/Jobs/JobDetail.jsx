@@ -33,10 +33,10 @@ const JobDetail = () => {
   return (
     <div>
       <section className="container-fluid">
-        <div className="card">
-          <div className="card-body">
+        <div className="card p-2 mt-5 ">
+          <div className="card-body shadow  ">
             <h3 className="card-title">Job Details</h3>
-            <div>
+            <div className=" m-3">
               <p className="card-text">
                 <strong>Title:</strong> {job.title}
               </p>

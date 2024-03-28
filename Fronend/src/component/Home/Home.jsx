@@ -1,96 +1,68 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Context } from "../../ContexApi/CreateApi";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
 
 const Home = () => {
+  const [jobs, setJobs] = useState([]);
+  const { isAuthorized } = useContext(Context);
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/v1/job/getall`,
+          {
+            withCredentials: true,
+          }
+        );
+        setJobs(response.data.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error fetching jobs:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      navigateTo("/");
+    }
+  }, [isAuthorized, navigateTo]);
+
   return (
-    <div className="container-xxl p-0">
-      <div className="container-xxl py-5">
-        <div className="container">
-          <h1 className="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
-            Explore By Category
-          </h1>
-          <div className="row g-4">
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.1s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-mail-bulk text-primary mb-4"></i>
-                <h6 className="mb-3">Marketing</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.3s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-headset text-primary mb-4"></i>
-                <h6 className="mb-3">Customer Service</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.5s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                <h6 className="mb-3">Human Resource</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.7s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-tasks text-primary mb-4"></i>
-                <h6 className="mb-3">Project Management</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.1s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-chart-line text-primary mb-4"></i>
-                <h6 className="mb-3">Business Development</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.3s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-hands-helping text-primary mb-4"></i>
-                <h6 className="mb-3">Sales & Communication</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.5s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-book-reader text-primary mb-4"></i>
-                <h6 className="mb-3">Teaching & Education</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
-            </div>
-            <div
-              className="col-lg-3 col-sm-6 wow fadeInUp"
-              data-wow-delay="0.7s"
-            >
-              <a className="cat-item rounded p-4" href="">
-                <i className="fa fa-3x fa-drafting-compass text-primary mb-4"></i>
-                <h6 className="mb-3">Design & Creative</h6>
-                <p className="mb-0">123 Vacancy</p>
-              </a>
+    <div className="container-fluid">
+      <h1 className="my-4">ALL AVAILABLE JOBS</h1>
+      <div className="row justify-content-evenly">
+        {jobs.map((element) => (
+          <div
+            className="card col-sm-10 col-md-5 col-lg-3 mx-1 my-4 shadow"
+            key={element._id}
+          >
+            <div className="card-body">
+              <h5 className="card-title">{element.title}</h5>
+              <p className="card-text">
+                <strong>Category:</strong> {element.category}
+              </p>
+              <p className="card-text">
+                <strong>Country:</strong> {element.country}
+              </p>
+              <Link to={`/job/${element._id}`} className="btn btn-primary">
+                <i className="bi bi-info-circle-fill me-1"></i>
+                {/* Bootstrap icon for job details */}
+                Job Details
+              </Link>
+              <p className="text-secondary mt-2 fs-6">
+                <i className="bi bi-clock-history-fill me-1"></i>
+                {moment(element.jobPostedOn).fromNow()}
+              </p>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

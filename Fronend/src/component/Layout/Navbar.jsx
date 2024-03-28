@@ -30,9 +30,9 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to={"/"}>
           Navbar
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -48,18 +48,19 @@ function Navbar() {
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link active" to={"/applications/me"}>
-                {user && user.role === "Employer"
-                  ? "APPLICANT'S APPLICATIONS"
-                  : "MY APPLICATIONS"}
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="nav-link active"
-                aria-current="page"
-                to={"/job/getall"}
-              >
-                JobDetails
+                {user && user.role === "Employer" ? (
+                  <>
+                    <i className="bi-file-earmark-text-fill me-2"></i>{" "}
+                    {/* Bootstrap icon for employer */}
+                    APPLICANT'S APPLICATIONS
+                  </>
+                ) : (
+                  <>
+                    {/* Bootstrap icon for applicant */}
+                    <i className="bi-file-earmark-text-fill"></i> MY
+                    APPLICATIONS
+                  </>
+                )}
               </Link>
             </li>
 
@@ -72,6 +73,7 @@ function Navbar() {
                     to={"/job/post"}
                     onClick={() => setShow(false)}
                   >
+                    <i className="bi bi-journal-plus-fill me-2"></i>
                     POST NEW JOB
                   </Link>
                 </li>
@@ -82,6 +84,8 @@ function Navbar() {
                     to={"/job/me"}
                     onClick={() => setShow(false)}
                   >
+                    {" "}
+                    <i className="bi bi-briefcase-fill me-2"></i>
                     VIEW YOUR JOBS
                   </Link>
                 </li>
@@ -93,6 +97,7 @@ function Navbar() {
                   aria-current="page"
                   to={"applications/me"}
                 >
+                  <i className="bi bi-person-check-fill me-2"></i>
                   My Application
                 </Link>
               </li>
@@ -100,12 +105,15 @@ function Navbar() {
             {user === "" ? (
               <li>
                 <Link to="/login" className="btn btn-primary">
+                  <i className="bi bi-door-open-fill me-2"></i>{" "}
+                  {/* Bootstrap icon for login */}
                   Login
                 </Link>
               </li>
             ) : (
               <li>
                 <button className="btn btn-primary" onClick={handleLogout}>
+                  <i className="bi bi-box-arrow-right me-2"></i>
                   Logout
                 </button>
               </li>

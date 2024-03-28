@@ -35,7 +35,11 @@ const Jobs = () => {
   return (
     <div>
       <div className="container-fluid">
-        <h1>ALL AVAILABLE JOBS</h1>
+        <h1 className="mb-4">
+          {/* Icon for "ALL AVAILABLE JOBS" */}
+          ALL AVAILABLE JOBS
+        </h1>
+
         <div className="">
           <div className=" row justify-content-evenly border border-2">
             {jobs.map((element) => (

@@ -16,6 +16,9 @@ import PostJob from "./component/Jobs/PostJob";
 import Application from "./component/Application/Application";
 import MyApplications from "./component/Application/MyApplication";
 import MyJob from "./component/Jobs/MyJob";
+import InterviewForm from "./component/Interview/InterviewForm";
+import NotFound from "./component/404/NotFound";
+import ScheduleInteriew from "./component/Interview/ScheduleInteriew";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -51,6 +54,13 @@ function App() {
         <Route path="/job/me" element={<MyJob />} />
         <Route path="/application/:id" element={<Application />} />
         <Route path="/applications/me" element={<MyApplications />} />
+        <Route path="/interview/:id" element={<InterviewForm />} />
+        <Route
+          path="applications/me/schedule/:id"
+          element={<ScheduleInteriew />}
+        />
+
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <Toaster />
       {/* <Footer /> */}

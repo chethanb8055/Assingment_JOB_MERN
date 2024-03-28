@@ -5,6 +5,7 @@ import React, { useState } from "react";
 const ContexProvider = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState({});
+  const [interviewData, setInterviewData] = useState("");
 
   return (
     <Context.Provider
@@ -13,6 +14,8 @@ const ContexProvider = ({ children }) => {
         setIsAuthorized,
         user,
         setUser,
+        interviewData,
+        setInterviewData,
       }}
     >
       {children}
